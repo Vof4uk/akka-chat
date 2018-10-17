@@ -1,0 +1,1 @@
+This is just a pet project for a chat program on Scala and Akka.
