@@ -2,6 +2,7 @@ import java.time.ZonedDateTime
 
 import ChatRoom.{SimpleMessage, UserJoined, UserLeft}
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import model.{Message, User}
 
 object ChatRoom {
 
@@ -64,7 +65,7 @@ class ChatUser(val user: User) extends Actor {
   def receive = {
     case SimpleMessage(msg) =>
       println(s"[${msg.sender}]:[${msg.sent}] - ${msg.body}")
-    case _ => println("**********************************")
+    case unknown => throw new UnsupportedOperationException(s"Unknown command $unknown.")
   }
 }
 
