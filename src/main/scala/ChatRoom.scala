@@ -117,25 +117,3 @@ class ChatUser(val user: User) extends Actor {
 }
 
 
-//todo: Remove when tests are ready
-object Chat extends App {
-  val lilly69 = User("001111", "lilly69")
-  val kolya84 = User("001112", "kolia84")
-
-  val aSys = ActorSystem("test-chat")
-  val chatRoom = aSys.actorOf(ChatRoom.props)
-  chatRoom ! UserJoined(lilly69)
-  Thread.sleep(10L)
-  chatRoom ! UserJoined(kolya84)
-  Thread.sleep(10L)
-  //  chatRoom ! UserLeft(kolya84)
-  chatRoom ! UserLeft(kolya84)
-  Thread.sleep(10L)
-  chatRoom ! UserJoined(kolya84)
-  Thread.sleep(10L)
-  chatRoom ! SimpleMessage(Message(lilly69, "Hi", ZonedDateTime.now()))
-  Thread.sleep(10L)
-  aSys.terminate()
-}
-
-
