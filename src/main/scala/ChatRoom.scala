@@ -1,7 +1,7 @@
 import java.time.ZonedDateTime
 
 import ChatRoom.{SimpleMessage, UserJoined, UserLeft}
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actor.{Actor, ActorRef, Props}
 import model.{Message, User}
 
 /**
