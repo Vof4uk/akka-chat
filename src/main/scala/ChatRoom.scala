@@ -1,7 +1,7 @@
 import java.time.ZonedDateTime
 
 import ChatRoom.{SimpleMessage, UserJoined, UserLeft}
-import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.actor.{Actor, ActorRef, Props}
 import model.{Message, User}
 
 /**
@@ -21,7 +21,7 @@ object ChatRoom {
     * Event reflects that user joined the chat
     * @param user new user
     */
-  case class UserJoined(user: User)
+  case class UserJoined(user: User, userActor: ActorRef)
 
   /**
     * Event reflects that user left the chat
@@ -56,10 +56,10 @@ class ChatRoom extends Actor {
     case SimpleMessage(msg) =>
       userMustPresent(msg.sender)
       broadcastMessage(msg)
-    case UserJoined(user) =>
+    case UserJoined(user, ref) =>
       userMustAbsent(user)
       broadcastMessage(Message(ChatroomMaster, s"User ${user.nickName} just joined", ZonedDateTime.now()))
-      chatUsers = chatUsers + (user -> context.actorOf(ChatUser.props(user), user.nickName))
+      chatUsers = chatUsers + (user -> ref)
       chatUsers(user) ! SimpleMessage(Message(ChatroomMaster, s"Welcome to our chat, ${user.nickName}!", ZonedDateTime.now()))
     case UserLeft(user) =>
       userMustPresent(user)
